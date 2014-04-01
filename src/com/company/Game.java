@@ -6,8 +6,6 @@ import org.jbox2d.dynamics.BodyType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 /**
  * Created with IntelliJ IDEA.

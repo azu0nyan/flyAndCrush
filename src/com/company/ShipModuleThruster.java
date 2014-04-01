@@ -16,8 +16,10 @@ public class ShipModuleThruster extends ShipModule {
     boolean on = true;
     float thrustingSpeedLimit = 20;
 
-    ShipModuleThruster(Vec2 center, float sizeX, float sizeY, float mass, float thrust) {
-        super(center, sizeX, sizeY, mass);
+    float thrustingScale = 1;
+
+    ShipModuleThruster(Ship ship, Vec2 center, float sizeX, float sizeY, float mass, float thrust, ShipModule owner) {
+        super(ship, center, sizeX, sizeY, mass, owner);
         this.thrust = thrust;
     }
 
@@ -25,10 +27,14 @@ public class ShipModuleThruster extends ShipModule {
         if(on && direction != null ){
             Vec2 temp = direction.clone();
             temp.normalize();
-            temp = temp.mul(thrust * dt);
-            if(getBody().getLinearVelocity().length() < 20 || getBody().getLinearVelocity().length() > getBody().getLinearVelocity().add(temp).length())
+            temp = temp.mul(thrustingScale * thrust * dt);
+            if(getBody().getLinearVelocity().length() < thrustingSpeedLimit || getBody().getLinearVelocity().length() > getBody().getLinearVelocity().add(temp).length())
             getBody().applyLinearImpulse(temp, getBody().getLocalCenter());
         }
+    }
+
+    public void setThrustingScale(float thrustingScale) {
+        this.thrustingScale = thrustingScale;
     }
 
     public float getThrust() {

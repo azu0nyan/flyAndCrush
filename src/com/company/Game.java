@@ -33,8 +33,9 @@ public class Game {
 
         gameObjects = new CopyOnWriteArrayList<>();
         new DrawablePhysicsGameObject(new Vec2(0, -10), 100, 20, 0, 0, BodyType.STATIC);
-
+        new DrawablePhysicsGameObject(new Vec2(2, 2), 5, 5, 0, 0, BodyType.STATIC);
         player = new Ship(new Vec2(10, 10));
+
     }
 
     public Ship getPlayer() {

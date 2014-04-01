@@ -18,6 +18,8 @@ public class PlayerControl implements MouseMotionListener, KeyListener {
 
     Ship ship;
     boolean on = true;
+    int maxLength = 500;
+    int minLength = 20;
 
     PlayerControl(Ship ship) {
         this.ship = ship;
@@ -38,12 +40,14 @@ public class PlayerControl implements MouseMotionListener, KeyListener {
             Vec2 screenShipPos = MainFrame.toScreenCords(ship.getCenter());
             Vec2 thrustDirection = new Vec2(e.getX() - screenShipPos.x, e.getY() - screenShipPos.y);
             thrustDirection.y = -thrustDirection.y;
-            if (thrustDirection.length() > 100) {
+            if (thrustDirection.length() > minLength) {
                 ship.getControl().on();
                 ship.getControl().setDirection(thrustDirection);
+                ship.getControl().setThrustingScale(Math.min(maxLength-minLength, thrustDirection.length()) / (maxLength - minLength) );
             } else {
                 ship.getControl().off();
             }
+           // ship.mainModule.getBody().setTransform(MainFrame.toPhysCords(new Vec2(e.getX(), e.getY())), 0);
         }
     }
 

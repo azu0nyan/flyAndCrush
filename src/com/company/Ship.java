@@ -1,6 +1,7 @@
 package com.company;
 
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.BodyType;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -20,25 +21,26 @@ public class Ship {
 
     Ship(Vec2 center){
         modules = new CopyOnWriteArrayList<>();
-        ShipModuleEngine e = new ShipModuleEngine(center, 1, 1, 1, 20);
+        ShipModuleEngine e = new ShipModuleEngine(this, center, 1, 1, 1, 20, null);
         Vec2 tCenter = center.clone();
         tCenter.x -= 0.75f;
-        ShipModuleThruster t = new ShipModuleThruster(tCenter, 0.5f, 0.5f, 1, 50f);
-        Physics.getInstance().createRevoluteJoint(e.getBody(), t.getBody());
+        ShipModuleThruster t = new ShipModuleThruster(this, tCenter, 0.5f, 0.5f, 1, 50f, e);
         Vec2 wCenter = center.clone();
         wCenter.y -= 5;
-        ShipModuleWeapon w = new ShipModuleWeapon(wCenter, 0.7f, 0.7f, 0.2f);
-        Physics.getInstance().createRopeJoint(e.getBody(), w.getBody(), 6);
-        modules.add(e);
-        modules.add(t);
-        modules.add(w);
-        t.on();
-        e.on();
+        ShipModuleWeapon w = new ShipModuleWeapon(this, wCenter, 0.3f, 0.7f, 1f,e);
+        t.off();
+        e.off();
         mainModule = e;
         control = t;
         t.setThrust(getTotalMass() * 10);
+        modules.stream().forEach(ShipModule::createJoins);
+        //mainModule.getBody().setType(BodyType.KINEMATIC);
     }
-
+    public void addModule(ShipModule module){
+        if(!modules.contains(module)){
+            modules.add(module);
+        }
+    }
     public float getTotalMass(){
         return modules.stream().map(e -> e.getBody().getMass()).reduce(0f, (x, y) -> x + y);
     }

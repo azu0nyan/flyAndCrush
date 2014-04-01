@@ -107,7 +107,19 @@ public class MainFrame extends JFrame {
     }
 
     public static Vec2 toScreenCords(Vec2 physCords){
+
+
         return new Vec2(physDx + physCords.x * physScale, physDy - physCords.y * physScale);
+    }
+
+    public static Vec2 toPhysCords(Vec2 screenCords){
+        /*
+        dx + x * s = sc
+        x = (sc - dx) /s
+        dy - y * s = sc
+        y = -(sc - dy) /s
+         */
+        return  new Vec2((screenCords.x - physDx) / physScale, -(screenCords.y - physDy) / physScale);
     }
 }
 

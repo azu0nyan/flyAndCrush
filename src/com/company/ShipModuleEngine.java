@@ -19,8 +19,8 @@ public class ShipModuleEngine extends ShipModule {
     private float sinForceDelta = 2;
 
     private float time = 0;
-    ShipModuleEngine(Vec2 center, float sizeX, float sizeY, float mass, float force) {
-        super(center, sizeX, sizeY, mass);
+    ShipModuleEngine(Ship ship, Vec2 center, float sizeX, float sizeY, float mass, float force, ShipModule owner) {
+        super(ship, center, sizeX, sizeY, mass, owner);
         this.force = force;
     }
 

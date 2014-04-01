@@ -42,6 +42,7 @@ public class Physics {
         bodyDef.type = type;
         bodyDef.angularDamping = 0.1f;
 
+
         Body b = b2World.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
@@ -68,9 +69,19 @@ public class Physics {
         return b2World.createJoint(weldJointDef);
     }
 
-    public Joint createRevoluteJoint(Body a, Body b){
+    public Joint createRevoluteJoint(Body a, Body b, boolean motor){
         RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
-        revoluteJointDef.initialize(a, b, a.getLocalCenter());
+        revoluteJointDef.bodyA = a;
+        revoluteJointDef.bodyB = b;
+        revoluteJointDef.localAnchorA.set(0, 0);
+        revoluteJointDef.localAnchorB.set(a.getWorldCenter().sub(b.getWorldCenter()));
+        revoluteJointDef.referenceAngle = b.getAngle() - a.getAngle();
+        revoluteJointDef.enableLimit = false;
+        if(motor){
+            revoluteJointDef.maxMotorTorque = 20;
+            revoluteJointDef.enableMotor = true;
+            revoluteJointDef.motorSpeed = (float) Math.PI;
+        }
         return b2World.createJoint(revoluteJointDef);
     }
 

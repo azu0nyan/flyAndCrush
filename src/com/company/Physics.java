@@ -31,7 +31,7 @@ public class Physics {
     }
 
     public World createWorld(Vec2 gravity) {
-        return b2World = new World(gravity, false);
+        return b2World = new World(gravity);
     }
 
 
@@ -66,5 +66,25 @@ public class Physics {
         WeldJointDef weldJointDef = new WeldJointDef();
         weldJointDef.initialize(a,b, new Vec2(0f, 0f));
         return b2World.createJoint(weldJointDef);
+    }
+
+    public Joint createRevoluteJoint(Body a, Body b){
+        RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
+        revoluteJointDef.initialize(a, b, a.getLocalCenter());
+        return b2World.createJoint(revoluteJointDef);
+    }
+
+    public Joint createRopeJoint(Body a, Body b, float length) {
+        RopeJointDef ropeJointDef = new RopeJointDef();
+        ropeJointDef.bodyA = a;
+        ropeJointDef.bodyB = b;
+        ropeJointDef.maxLength = length;
+
+        return b2World.createJoint(ropeJointDef);
+    }
+    public Joint createDiscanceJoint(Body a, Body b){
+        DistanceJointDef distanceJointDef = new DistanceJointDef();
+        distanceJointDef.initialize(a, b, new Vec2(0, 0), new Vec2(0,0));
+        return b2World.createJoint(distanceJointDef);
     }
 }

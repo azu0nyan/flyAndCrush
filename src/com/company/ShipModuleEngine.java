@@ -13,10 +13,10 @@ public class ShipModuleEngine extends ShipModule {
 
     private float force;
     private boolean on;
-    private boolean sinusoidalThrustingOn = true;
+    private boolean sinusoidalThrustingOn = false;
     private float sinFreq = 2;// sec/ 0 -> PI
 
-    private float sinForceDelta = 10;
+    private float sinForceDelta = 2;
 
     private float time = 0;
     ShipModuleEngine(Vec2 center, float sizeX, float sizeY, float mass, float force) {

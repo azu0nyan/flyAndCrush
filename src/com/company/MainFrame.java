@@ -13,9 +13,9 @@ import java.util.List;
 public class MainFrame extends JFrame {
 
     static Game game;
-    int physDx = 1000;
-    int physDy = 1000;
-    float physScale = 50;
+    static int physDx = 1000;
+    static int physDy = 1000;
+    static float physScale = 50;
     Graphics2D g;
 
     public static void main(String[] args) {
@@ -30,6 +30,9 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         createBufferStrategy(2);
         long t = System.currentTimeMillis();
+        PlayerControl control = new PlayerControl(game.getPlayer());
+        this.addMouseMotionListener(control);
+        this.addKeyListener(control);
         while(true){
             long tempT = System.currentTimeMillis();
             long dt = tempT - t;
@@ -101,6 +104,10 @@ public class MainFrame extends JFrame {
     public void clearScreen(){
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
+    }
+
+    public static Vec2 toScreenCords(Vec2 physCords){
+        return new Vec2(physDx + physCords.x * physScale, physDy - physCords.y * physScale);
     }
 }
 

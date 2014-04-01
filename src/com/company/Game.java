@@ -22,11 +22,12 @@ public class Game {
 
     public List<GameObject> gameObjects;
 
-
+    Ship player;
 
     public static Game getInstance() {
         return ourInstance;
     }
+
 
     public void init(){
         p = Physics.getInstance();
@@ -35,7 +36,11 @@ public class Game {
         gameObjects = new CopyOnWriteArrayList<>();
         new DrawablePhysicsGameObject(new Vec2(0, -10), 100, 20, 0, 0, BodyType.STATIC);
 
-        new Ship(new Vec2(10, 10));
+        player = new Ship(new Vec2(10, 10));
+    }
+
+    public Ship getPlayer() {
+        return player;
     }
 
     public void addGameObject(PhysicsGameObject object){
